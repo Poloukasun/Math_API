@@ -16,8 +16,7 @@ export default class MathsController extends Controller {
             let paramsValidated = this.validateParams(params);
 
             if (paramsValidated.isValid) {
-                if (params.op == ' ') { // ADDITION +
-                    params.op = '+';
+                if (params.op == '+') { // ADDITION +
                     params.value = parseFloat(params.x) + parseFloat(params.y);
                 } else if (params.op == '-') { // SOUSTRACTION -
                     params.value = parseFloat(params.x) - parseFloat(params.y);
@@ -51,7 +50,7 @@ export default class MathsController extends Controller {
                     } else {
                         params.value = this.isPrime(params.n);
                     }
-                } else if (params.op = 'np') { // NIÈME PREMIER np
+                } else if (params.op == 'np') { // NIÈME PREMIER np
                     params.value = this.findPrime(parseInt(params.n));
                 }
             } else {
@@ -68,12 +67,13 @@ export default class MathsController extends Controller {
 
         switch (params.op) {
             case ' ': //+
+                params.op = '+';
             case '-':
             case '*':
             case '/':
             case '%':
                 isValid = params.x !== undefined && params.y !== undefined;
-                if (Object.keys(params).length != 3) {
+                if (isValid && Object.keys(params).length != 3) {
                     isValid = false;
                     error = "too many parameters";
                 } else {
@@ -84,7 +84,7 @@ export default class MathsController extends Controller {
             case 'p':
             case 'np':
                 isValid = params.n !== undefined;
-                if (Object.keys(params).length != 2) {
+                if (isValid && Object.keys(params).length != 2) {
                     isValid = false;
                     error = "too many parameters";
                 } else {
@@ -92,7 +92,8 @@ export default class MathsController extends Controller {
                 }
                 break;
             default:
-                error = params.op;
+                error = "unknown operation";
+                break;
         }
 
         return { isValid, error };

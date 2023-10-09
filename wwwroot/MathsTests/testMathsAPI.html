@@ -112,6 +112,7 @@
         }
 
         function verify(result) {
+            console.log("parseInt(result.x)", parseInt(result.x))
             if (result.op != null) {
                 switch (result.op) {
                     case '+':
@@ -123,11 +124,11 @@
                             return (result.error != null);
                         if (result.x == null)
                             return (result.error != null);
-                        if (parseInt(result.x) == NaN)
+                        if (isNaN(parseInt(result.x)))
                             return (result.error != null);
                         if (result.y == null)
                             return (result.error != null);
-                        if (parseInt(result.y) == NaN)
+                        if (isNaN(parseInt(result.y)))
                             return (result.error != null);
                         break;
                     case '!':
@@ -137,7 +138,7 @@
                             return (result.error != null);
                         if (result.n == null)
                             return (result.error != null);
-                        if (parseInt(result.n) == NaN)
+                        if (isNaN(parseInt(result.n)))
                             return (result.error != null);
                         if (/[\.]/.test(String(result.n))) // is float
                             return (result.error != null);
@@ -147,9 +148,9 @@
                     default:
                         return (result.error != null);
                 }
-
                 if (result.value == null)
                     return false;
+
                 switch (result.op) {
                     case '+': return (result.value == parseFloat(result.x) + parseFloat(result.y));
                     case '-': return (result.value == parseFloat(result.x) - parseFloat(result.y));
@@ -168,7 +169,6 @@
                     default:
                         return (result.error != null);
                 }
-
             } else {
                 return (result.error != null)
             }
